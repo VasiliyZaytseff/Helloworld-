@@ -6,7 +6,7 @@ export class Text extends React.Component {
     super(props);
       this.state = {
         edit: false,
-        string: "ы"
+        string: "  "
       };
   };
 
@@ -36,8 +36,8 @@ export class Text extends React.Component {
 			<div>
 				<div>
 					<h1> Hello, world!!! </h1>  
-					<p className = { this.check() ? "bold" : "oblique" } hidden = { this.state.edit } >  { this.state.string } </p>  
-					<textarea hidden = { this.state.edit } onChange = { this.setname } > ы </textarea>  
+					<p className = { this.check() ? "bold" : "oblique" } hidden = { this.state.edit } >{ this.state.string }</p>  
+					<textarea hidden = { this.state.edit } onChange = { this.setname } >  </textarea>  
 				</div>  
 				<button hidden = { this.state.edit } onClick = { this.edit } > Ввести имя </button>  
 				<button hidden = {!this.state.edit } onClick = { this.save } > Ok </button>  
