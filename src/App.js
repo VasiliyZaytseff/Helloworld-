@@ -10,26 +10,22 @@ export class Text extends React.Component {
       };
   };
 
-  edit = () => {
+  onEdit = () => {
     this.setState({ edit: true });
   };
 
-  setname = (event) => {
+  setName = (event) => {
     this.setState({string: event.target.value});
   };
 
-  save = () => {
+  onSave = () => {
     this.setState({ edit: false });
   };
 
   check = () => {
-   if (str != null){
-    var str = this.state.string;
-    if (str[0] === str[0].toUpperCase()) {
-      return (true);
-    } else {
-      return (false);
-    } 
+   var str = this.state.string;
+   if (str){
+    return str[0] === str[0].toUpperCase();
    }
   };
 
@@ -39,10 +35,10 @@ export class Text extends React.Component {
 				<div>
 					<h1> Hello, world!!! </h1>  
 					<p className = { this.check() ? "bold" : "oblique" } hidden = { this.state.edit } >{ this.state.string }</p>  
-					<textarea hidden = { this.state.edit } onChange = { this.setname } ></textarea>  
+					<textarea hidden = { this.state.edit } onChange = { this.setName } ></textarea>  
 				</div>  
-				<button hidden = { this.state.edit } onClick = { this.edit } > Ввести имя </button>  
-				<button hidden = {!this.state.edit } onClick = { this.save } > Ok </button>  
+				<button hidden = { this.state.edit } onClick = { this.onEdit } > Ввести имя </button>  
+				<button hidden = {!this.state.edit } onClick = { this.onSave } > Ok </button>  
 			</div>
     );
   }
