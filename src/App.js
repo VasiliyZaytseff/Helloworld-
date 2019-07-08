@@ -23,12 +23,14 @@ export class Text extends React.Component {
   };
 
   check = () => {
+   if (str != null){
     var str = this.state.string;
     if (str[0] === str[0].toUpperCase()) {
       return (true);
     } else {
       return (false);
-    }  
+    } 
+   }
   };
 
   render() {
