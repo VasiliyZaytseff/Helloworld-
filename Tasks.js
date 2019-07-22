@@ -18,12 +18,9 @@ console.log(nums);
 
 ////////////////2 задание
 var arr=[];
-var arrx=[];
-var arrd=[];
 var car={key:"car",description:"red"};
 var bus={key:"bus",description:"white"};
 var busx={key:"bus",description:"black"};
-var carx={description:"red"};
 
 function addBusCar(){
     arr.push(car);
