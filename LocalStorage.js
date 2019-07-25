@@ -1,184 +1,76 @@
-/*class LocalStorage{
+class BaseStorage {
+        tableName = constructor.name;
+        primaryKey = idx;
+        secondKey = id;
     constructor(){
-        this.id = 0;
     }
 
-    add(obj){
-        this.id++;
-        var stringField = JSON.stringify(obj);
-        localStorage.setItem(this.id,stringField);
-        return this.id;
+    add(item){
+        var items = JSON.parse(this.getItems());
+        if (this.getPK() == undefined ){
+            var idx = JSON.parse(this.getPK());
+            idx.push(1);
+            localStorage.setItem(this.primaryKey, JSON.stringify(idx));
+        } else {
+            this.getPK();
+            localStorage.setItem(Object.assign(idx[0],++this.idx));
+        }
+        items.push(Object.assign(item,{id:"_idx"}));
+        localStorage.setItem(this.tableName,JSON.stringify(items));
+        return arr;
     }
 
-    update(id,obj){
-        localStorage.setItem(id,obj);
+    update(id,item){
+        for(var i = 0;i<items.length;i++){
+            if(items[i].id == id){
+                localStorage.setItem(id,JSON.stringify(item));
+            } 
+        }
     }
 
     remove(id){
-        localStorage.removeItem(id);
-    }
-
-    read(id){
-        if (id === undefined){
-            var arr = [];
-            for(id=1; id<=localStorage.length;id++){
-                arr.push(localStorage.getItem(id));
-            }
-            return arr;
-        } else{
-            return localStorage.getItem(id);
-        }
-        }
-    }
-
-class Groups {
-    constructor(){
-        this.name = name;
-    }
-}
-
-class Students {
-    constructor(){
-        this.id=id;
-        this.name=name;
-        this.secondName=secondName;
-        this.fatherName=fatherName;
-        this.birthDate=birthDate;
-        this.gender=gender;
-        this.hobbi=hobbi;
-    }
-}
-*/  
-
-class LocalStorage{
-    constructor(key){
-        this.key = key;
-    }
-
-    add(key,value){
-        if (localStorage.getItem(key) !== null){
-            var str = localStorage.getItem(key);
-            var arr = JSON.parse(str);
-            arr.push(value);
-            var strArr = JSON.stringify(arr);
-            localStorage.setItem(key,strArr);          
-        } else {
-            var arr = [];
-            arr.push(value);
-            var strArr = JSON.stringify(arr);
-            localStorage.setItem(key,strArr); 
-        }
-    }
-
-    /**
-     * Обновляет значение объекта 
-     * 
-     * @param {*} key Ключ для LocalStorage в котором хранится массив объектов нужного типа
-     * @param {*} obj Объект 
-     */
-
-    update(key,obj){
-        var get = localStorage.getItem(key);
-        var parseGet = JSON.parse(get);
-        for (var i=0;i<parseGet.length;i++){
-            if (parseGet[i].id === obj.id){
-                parseGet[i] = obj;
-                break;
-            }
-        }
-        localStorage.setItem(key,JSON.stringify(parseGet));
-    }
-
-    /**
-     * Возвращает массив, если идентификатор не указан, если указан, то возвращает одну запись
-     * 
-     * @param {*} key Ключ для LocalStorage в котором хранится массив объектов нужного типа
-     * @param {*} id  Идентификатор записи
-     */
-
-    read(key,id){ 
-        if (id === undefined){
-            var readed = localStorage.getItem(key);
-            var objReaded = JSON.parse(readed);
-            return objReaded;
-        } else {
-            var readed = localStorage.getItem(key);
-            var objReaded = JSON.parse(readed);
-            for (var i = 0; i<objReaded.length; i++){
-                if (objReaded[i].id === id){
-                    return objReaded[i];
-                }
-            }
-        }
-    }
-
-    /**
-     * Удаляет элемент массива Group
-     * 
-     * @param {*} key Ключ для LocalStorage в котором хранится массив объектов нужного типа
-     * @param {*} id Иентификатор записи 
-     */
-
-    remove(key,id){
         var temp = [];
-        var get = localStorage.getItem(key);
-        var groups = JSON.parse(get);
-        for (var i=0;i<groups.length;i++){
-            if(groups[i].id !== id){
-                temp.push(groups[i]);
+        var items = JSON.parse(getItremId());
+        for (var i=0;i<items.length;i++){
+            if(items[i].id !== id){
+                temp.push(items[i]);
             } else{
                 continue;
             }
         }
         var strTemp = JSON.stringify(temp);
-        localStorage.setItem(key,strTemp);
+        localStorage.setItem(id,strTemp);
+    }
+
+    get(id){
+        if (id == undefined){
+            return getPK();
+        } else {
+            return getItremId();
+        }
+    }
+
+    getItremId(){
+        return localStorage.getItem(this.id);
+    }
+
+    getItems(){
+        return localStorage.getItem(this.tableName);
+    }
+
+    getPK(){
+        return localStorage.getItem(this.primaryKey);
     }
 }
 
-class Groups extends LocalStorage {
+class Students extends BaseStorage{
     constructor(){
-        super("groups");
-        this.counter = 0;
-    }
-
-    add(obj){
-        obj['id'] = ++this.counter;
-        super.add(super.key,obj);
-    }
-
-    update(obj){
-        super.update(super.key,obj);
-    }
-
-    remove(obj){
-        super.remove(super.key,obj);
-    }
-
-    read(id){
-        return super.read(super.key,id);
+        super();
     }
 }
 
-class Students extends LocalStorage {
+class Groups extends BaseStorage{
     constructor(){
-        super("students")
-        this.counter = 0;
-    }
-
-    add(obj){
-        obj['id'] = ++this.counter;
-        super.add(super.key,obj);
-    }
-
-    update(obj){
-        super.update(super.key,obj);
-    }
-
-    remove(obj){
-        super.remove(super.key,obj);
-    }
-
-    read(id){
-        return super.read(super.key,id);
+        super();
     }
 }
